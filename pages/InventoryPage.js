@@ -30,7 +30,7 @@ class Inventory {
     }
 
     async getAllProducrtPrices(){
-        const priceText = await this.itemprices.allTextContents();
+        const priceText = await this.itemPrices.allTextContents();
         return priceText.map((price) => parseFloat(price.replace('$','')));
 
     }

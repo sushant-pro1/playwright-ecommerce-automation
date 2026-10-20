@@ -1,21 +1,25 @@
 
 const {test,expect} = require('@playwright/test');
 const{LoginPage} = require('../pages/LoginPage');
-const {inventory} = require('../pages/InventoryPage');
+const {Inventory} = require('../pages/InventoryPage');
 const constant = require('../data/constants');
-const cart = require('../page/CartPage');
+const {Cart} = require('../pages/CartPage');
+const users = require('../data/users');
 
-/** @type {Cart} */
+/** @type {cartPage} */
 let cart;
+
 /** @type {LoginPage} */
 let loginPage;
 
-/** @type {inventory} */
+/** @type {InventoryPage} */
 let inventoryPage;
+
+
 
 test.beforeEach(async({page})=>{
     loginPage = new LoginPage(page);
-    inventoryPage = new inventory(page);
+    inventoryPage = new Inventory(page);
     cart = new Cart(page);
 
     await loginPage.open();
@@ -24,12 +28,12 @@ test.beforeEach(async({page})=>{
 
 })
 
-test('added products appear correclty in cart', async([page])=> {
+test('added products appear correclty in cart', async({page})=> {
 
     await inventoryPage.addProductToCart(constant.text.sauceLabsBackpacktext);
     await inventoryPage.addProductToCart(constant.text.saucelabsBikeLighttext);
 
-    await this.cart.goTocart();
+    await cart.goTocart();
     await expect(page).toHaveURL(constant.urls.cart)
     const itemNames = await cart.getAllCardName()
     expect(itemNames).toEqual([constant.text.sauceLabsBackpacktext,constant.text.saucelabsBikeLighttext])
@@ -41,14 +45,14 @@ test('product can be removed from the cart',async({page})=>
     await inventoryPage.addProductToCart(constant.text.sauceLabsBackpacktext);
     await inventoryPage.addProductToCart(constant.text.saucelabsBikeLighttext);
 
-    await this.cartPage.goTocart();
-    await cart.removeProduct(sauceLabsBackpacktext);
+    await cart.goTocart();
+    await cart.removeProduct(constant.text.sauceLabsBackpacktext);
 
-    const count = await cartPage.getcartItemCount();
+    const count = await cart.getcartItemCount();
     expect(count).toBe(1);
 
-    const remainingNames = await cartPage.getAllCardName();
-    epect(remainingNames).toEqual(sauceLabsBackpacktext)
+    const remainingNames = await cart.getAllCardName();
+    expect(remainingNames).toEqual([constant.text.saucelabsBikeLighttext])
 })
 
 test('Add a product to. cart and head to cehckout ns user can proceed with right info',async({page})=>
@@ -58,10 +62,10 @@ test('Add a product to. cart and head to cehckout ns user can proceed with right
     await inventoryPage.addProductToCart(constant.text.saucelabsBikeLighttext);
 
 
-    await this.cart.goTocart();
+    await cart.goTocart();
     await expect(page).toHaveURL(constant.urls.cart)
 
-    cart.checkoit();
+    cart.checkout();
     cart.fillInfoCheckOut(constant.checkOutInfo.firstname,constant.checkOutInfo.lastname,
     constant.checkOutInfo.postalcode);
     await expect(page).toHaveURL(constant.urls.checkouturl);
@@ -70,7 +74,8 @@ test('Add a product to. cart and head to cehckout ns user can proceed with right
     const tax = await cart.getTax();
     const total = await cart.getTotal();
 
-    expect(total).toBecloseTo(subtotal + tax,2);
+    expect(total).toBeCloseTo(subtotal + tax, 2);
+    
 
     await cart.finish();
     await expect(page).toHaveURL(constant.urls.thankyouPage);
