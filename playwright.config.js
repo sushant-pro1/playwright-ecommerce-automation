@@ -39,10 +39,10 @@ export default defineConfig({
     video:'retain-on-failure',
 
     
-    headless: false,
+    headless: !!process.env.CI,
     launchOptions: {
-        slowMo: 1000
-    }
+    slowMo: process.env.CI ? 0 : 1000
+    },
   },
 
   /* Configure projects for major browsers */
