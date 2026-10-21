@@ -12,6 +12,7 @@ class LoginPage{
         this.usernameInput =page.getByPlaceholder('Username');
         this.passwordInput = page.getByPlaceholder('Password');
         this.loginButton = page.getByRole('button',{name : 'Login'});
+        this.errorMessage = page.locator('[data-test="error"]');
 }
 async open() {
     console.log(`Opening base URL: ${this.baseURL}`);
@@ -24,6 +25,10 @@ async login(username,password)
     await this.passwordInput.fill(password);
     await this.loginButton.click();
 
+}
+
+async getErrorMessage() {
+  return await this.errorMessage.textContent();
 }
 
 }

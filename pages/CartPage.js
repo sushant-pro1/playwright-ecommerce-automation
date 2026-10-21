@@ -15,7 +15,8 @@ class Cart{
         this.subtotal   = page.locator('[data-test="subtotal-label"]');
         this.tax        = page.locator('[data-test="tax-label"]');
         this.total      = page.locator('[data-test="total-label"]');
-        this.getcompleteHedarMessage = page.locator('[data-test="complete-header"]')
+        this.getcompleteHedarMessage = page.locator('[data-test="complete-header"]');
+        this.errorMessage = page.locator('[data-test="error"]');
 
         
 

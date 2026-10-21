@@ -25,3 +25,17 @@ test('Valid user can log in @smoke', async({page}) =>
   await expect(page).toHaveURL(constants.urls.inventory);
   await expect(page.locator('.title')).toHaveText(constants.text.productTitle);
 });
+
+test('Invalid password displays an error', async ({ page }) => {
+  const loginPage = new LoginPage(page);
+
+  await loginPage.open();
+  await loginPage.login(users.standard_Users.username, users.Invalid_Credenital.password);
+
+  await expect(loginPage.errorMessage).toBeVisible();
+
+  await expect(loginPage.errorMessage).toContainText(
+    'Username and password do not match any user in this service'
+  );
+});
+

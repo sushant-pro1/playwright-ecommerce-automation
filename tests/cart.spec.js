@@ -83,3 +83,62 @@ test('Add a product to cart and head to checkout and  user can proceed with righ
     await expect(cart.getcompleteHedarMessage).toHaveText('Thank you for your order!');
     
 })
+
+test('Checkout shows an error when first name is empty', async ({ page }) => {
+    await inventoryPage.addProductToCart(constant.text.sauceLabsBackpacktext);
+
+    await cart.goTocart();
+    await cart.checkout();
+
+    await cart.fillInfoCheckOut(
+        '',
+        constant.checkOutInfo.lastname,
+        constant.checkOutInfo.postalcode
+    );
+
+    await expect(cart.errorMessage).toBeVisible();
+    await expect(cart.errorMessage).toContainText('First Name is required');
+
+    await expect(page).toHaveURL(constant.urls.checkoutInfo);
+});
+
+test('Checkout shows an error when last name is empty', async ({ page }) => {
+    await inventoryPage.addProductToCart(constant.text.sauceLabsBackpacktext);
+
+    await cart.goTocart();
+    await cart.checkout();
+
+    await cart.fillInfoCheckOut(
+        constant.checkOutInfo.firstname,
+        '',
+        constant.checkOutInfo.postalcode
+    );
+
+    await expect(cart.errorMessage).toBeVisible();
+    await expect(cart.errorMessage).toContainText('Last Name is required');
+
+    await expect(page).toHaveURL(constant.urls.checkoutInfo);
+});
+
+test('Checkout shows an error when postal code is empty', async ({ page }) => {
+    await inventoryPage.addProductToCart(
+        constant.text.sauceLabsBackpacktext
+    );
+
+    await cart.goTocart();
+    await cart.checkout();
+
+    await cart.fillInfoCheckOut(
+        constant.checkOutInfo.firstname,
+        constant.checkOutInfo.lastname,
+        ''
+    );
+
+    await expect(cart.errorMessage).toBeVisible();
+
+    await expect(cart.errorMessage).toContainText(
+        'Postal Code is required'
+    );
+
+    await expect(page).toHaveURL(constant.urls.checkoutInfo);
+});
