@@ -110,7 +110,27 @@ View the HTML test report:
 ```bash
 npx playwright show-report
 ```
+## Cross-Browser Testing
 
+Run the complete Playwright test suite across configured browsers:
+
+```bash
+npx playwright test
+```
+
+Run tests in a specific browser:
+
+```bash
+npx playwright test --project=chromium
+npx playwright test --project=firefox
+npx playwright test --project=webkit
+```
+
+View the HTML report:
+
+```bash
+npx playwright show-report
+```
 ## 🧪 Testing Scenarios
 
 | Module | Scenarios |
