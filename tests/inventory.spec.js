@@ -20,7 +20,7 @@ test.beforeEach(async ({ page }) => {
         users.standard_Users.password);
 });
 
-test('Cart badge update when added to cart', async ({ page }) => {
+test('Cart badge update when added to cart @smoke', async ({ page }) => {
 
    await  inventoryPage.addProductToCart(constants.text.sauceLabsBackpacktext);
    await inventoryPage.addProductToCart(constants.text.saucelabsBikeLighttext);

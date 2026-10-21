@@ -55,7 +55,7 @@ test('product can be removed from the cart',async({page})=>
     expect(remainingNames).toEqual([constant.text.saucelabsBikeLighttext])
 })
 
-test('Add a product to. cart and head to cehckout ns user can proceed with right info',async({page})=>
+test('Add a product to. cart and head to checkout and  user can proceed with right info @smoke',async({page})=>
 {
 
     await inventoryPage.addProductToCart(constant.text.sauceLabsBackpacktext);

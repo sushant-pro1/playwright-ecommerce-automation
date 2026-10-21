@@ -17,7 +17,7 @@ test.beforeEach(async({page}) =>{
 
 // test case-1 login 
 
-test('user can login with valid credentials @smoke', async({page}) =>
+test('Valid user can log in @smoke', async({page}) =>
 {
   await loginPage.login(users.standard_Users.username, users.standard_Users.password);
 
