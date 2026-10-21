@@ -1,31 +1,28 @@
-# Playwright E-Commerce Automation
+# Playwright E-Commerce Automation Framework
 
-Automated end-to-end testing of an e-commerce web application using **Playwright Test and JavaScript**. This project tests key user workflows on [SauceDemo](https://www.saucedemo.com/), including login, product selection, shopping cart operations, and checkout.
+A UI test automation framework for the [SauceDemo](https://www.saucedemo.com/) e-commerce application, built using **Playwright Test and JavaScript**. The project uses the **Page Object Model (POM)** to organize page interactions and supports automated test execution across Chromium, Firefox, and WebKit.
 
-## 🚀 Project Overview
+## Features
 
-The goal of this project is to validate essential e-commerce workflows and verify that the application behaves as expected under different test scenarios.
+- Page Object Model (POM) for maintainable test code
+- Reusable page classes and test data
+- UI validation for login, inventory, shopping cart, and checkout
+- Positive and negative test scenarios
+- Cross-browser testing with Chromium, Firefox, and WebKit
+- HTML test reports and failure artifacts
+- GitHub Actions integration for continuous integration (CI)
 
-### Key Features
+## Tech Stack
 
-- **Login Testing:** Validate successful login and authentication behavior.
-- **Product Testing:** Verify product listings and add-to-cart functionality.
-- **Shopping Cart Testing:** Validate cart contents, product removal, and cart item counts.
-- **Checkout Testing:** Verify checkout form submission and order completion.
-- **Price Validation:** Check subtotal, tax, and total calculations.
-- **Page Object Model (POM):** Separate page locators and actions from test cases for maintainability.
-- **Reusable Test Data:** Store test data and application constants separately.
-- **Automated Assertions:** Use Playwright's built-in assertions to validate expected behavior.
+- **Language:** JavaScript
+- **Automation:** Playwright Test
+- **Design Pattern:** Page Object Model
+- **Test Application:** SauceDemo
+- **CI/CD:** GitHub Actions
+- **Version Control:** Git and GitHub
+- **Environment Configuration:** dotenv
 
-## 🛠️ Tech Stack
-
-- JavaScript
-- Playwright Test
-- Node.js and npm
-- Page Object Model (POM)
-- Git and GitHub
-
-## 📁 Project Structure
+## Project Structure
 
 ```text
 playwright-ecommerce-automation/
@@ -40,79 +37,89 @@ playwright-ecommerce-automation/
 │   ├── Login.spec.js
 │   ├── inventory.spec.js
 │   └── cart.spec.js
-├── playwright.config.js
+├── .github/
+│   └── workflows/
+│       └── playwright.yml
+├── .env                 # Local environment configuration
+├── .gitignore
 ├── package.json
 ├── package-lock.json
+├── playwright.config.js
 └── README.md
 ```
 
-## ⚙️ Installation and Setup
+**Note:** The `.env` file contains local configuration and should not be committed to Git.
 
-### Prerequisites
+## Prerequisites
 
-- Node.js and npm installed
-- Git installed
+- Node.js and npm
+- Git
+- A GitHub account to access the repository
 
-### 1. Clone the repository
+## Installation
+
+Clone the repository and enter the project directory:
 
 ```bash
 git clone https://github.com/sushant-pro1/playwright-ecommerce-automation.git
-```
-
-### 2. Navigate to the project directory
-
-```bash
 cd playwright-ecommerce-automation
 ```
 
-### 3. Install dependencies
+Install dependencies:
 
 ```bash
-npm install
+npm ci
 ```
 
-### 4. Install Playwright browsers
+Install the Playwright browsers:
 
 ```bash
 npx playwright install
 ```
 
-## ▶️ Running Tests
+On Linux CI environments, use `npx playwright install --with-deps` when browser system dependencies need to be installed.
 
-Run all tests:
+## Environment Configuration
 
-```bash
-npx playwright test
+Create a `.env` file in the project root:
+
+```env
+BASE_URL=https://www.saucedemo.com
 ```
 
-Run tests in headed mode:
+Keep `.env` out of version control. Use the project's existing test-data configuration for test credentials.
 
-```bash
-npx playwright test --headed
-```
+## Test Scenarios
 
-Run a specific test file:
+### Login
+- Validate login with valid credentials.
+- Verify appropriate error messages for invalid credentials.
 
-```bash
-npx playwright test tests/Login.spec.js
-npx playwright test tests/inventory.spec.js
-npx playwright test tests/cart.spec.js
-```
+### Inventory
+- Verify inventory products are displayed.
+- Add products to the shopping cart.
+- Validate cart badge updates when products are added.
 
-Run tests using Chromium:
+### Shopping Cart and Checkout
+- Verify selected products appear in the cart.
+- Remove products and validate cart contents.
+- Complete the checkout flow.
+- Validate checkout information fields, including required-field errors.
+- Verify order summary totals and checkout completion.
 
-```bash
-npx playwright test --project=chromium
-```
+## Browser Coverage
 
-View the HTML test report:
+The Playwright configuration includes the following browsers:
 
-```bash
-npx playwright show-report
-```
-## Cross-Browser Testing
+| Browser | Project |
+|---|---|
+| Chromium | `chromium` |
+| Firefox | `firefox` |
+| WebKit | `webkit` |
 
-Run the complete Playwright test suite across configured browsers:
+## Running Tests
+
+Run the complete configured test suite:
 
 ```bash
 npx playwright test
@@ -126,43 +133,71 @@ npx playwright test --project=firefox
 npx playwright test --project=webkit
 ```
 
-View the HTML report:
+Run a specific test file:
+
+```bash
+npx playwright test tests/Login.spec.js
+npx playwright test tests/inventory.spec.js
+npx playwright test tests/cart.spec.js
+```
+
+Run only tests tagged for smoke testing:
+
+```bash
+npx playwright test --project=chromium --grep "@smoke"
+```
+
+Run tests with the Playwright UI:
+
+```bash
+npx playwright test --ui
+```
+
+## Test Reports and Debugging
+
+Open the HTML report after a test run:
 
 ```bash
 npx playwright show-report
 ```
-## 🧪 Testing Scenarios
 
-| Module | Scenarios |
-|---|---|
-| Login | Validate login behavior |
-| Inventory | Verify products and add-to-cart functionality |
-| Cart | Validate cart contents and remove products |
-| Checkout | Submit customer information and proceed to order overview |
-| Order Completion | Verify successful order confirmation |
-| Price Calculation | Validate subtotal + tax = total |
+Run tests in headed mode:
 
-## 🏗️ Design Approach
+```bash
+npx playwright test --headed
+```
 
-The project follows the **Page Object Model (POM)** design pattern. Page-specific locators and actions are maintained in separate classes, while test files focus on test scenarios and assertions.
+Playwright traces, screenshots, videos, and other failure artifacts depend on the settings in `playwright.config.js` and the CI workflow.
 
-Test data and application constants are organized separately to improve readability, reusability, and maintainability.
+## GitHub Actions Workflow
 
-## 🔮 Future Improvements
+The project uses GitHub Actions to automate test execution.
 
-- Integrate automated test execution with GitHub Actions.
-- Expand negative and boundary test scenarios.
-- Add cross-browser execution.
-- Improve test reporting and failure diagnostics.
+- **Push to `main`:** Runs the configured Chromium smoke tests.
+- **Pull request targeting `main`:** Runs the configured Chromium regression suite.
+- **Artifacts:** The workflow uploads the HTML report and test results when configured by the workflow.
+
+A successful workflow run provides an automated check before changes are merged into `main`.
+
+## Framework Design
+
+The project follows the Page Object Model:
+
+- **`pages/`** — Contains reusable page classes, locators, and UI actions.
+- **`tests/`** — Contains test scenarios and assertions.
+- **`data/`** — Contains shared constants and test-user data.
+- **`playwright.config.js`** — Configures browser projects, test execution, and reporting.
+- **`.github/workflows/`** — Defines the CI workflow for automated test execution.
+
+This separation helps keep test cases readable and makes page interactions easier to maintain.
+
+## Future Improvements
+
 - Expand API testing coverage.
+- Add additional edge cases and regression scenarios.
+- Improve test data management.
+- Extend CI execution and reporting as the framework evolves.
 
-## 👨‍💻 Author
+## Disclaimer
 
-**Sushant Suryavanshi**
-
-- GitHub: [sushant-pro1](https://github.com/sushant-pro1)
-- LinkedIn: [Sushant Suryavanshi](https://www.linkedin.com/in/sushant-suryavanshi/)
-
----
-
-*This project is built for learning and demonstrating practical skills in web UI test automation, test design, and maintainable automation frameworks.*
+This project is intended for learning and demonstrating UI test automation against the publicly available SauceDemo demo application.
