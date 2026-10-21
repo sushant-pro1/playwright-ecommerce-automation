@@ -36,7 +36,13 @@ export default defineConfig({
     // and we can use it in test case by using process.env.BASE_URL
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video:'retain-on-failure'
+    video:'retain-on-failure',
+
+    
+    headless: false,
+    launchOptions: {
+        slowMo: 1000
+    }
   },
 
   /* Configure projects for major browsers */

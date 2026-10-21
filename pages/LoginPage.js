@@ -13,10 +13,10 @@ class LoginPage{
         this.passwordInput = page.getByPlaceholder('Password');
         this.loginButton = page.getByRole('button',{name : 'Login'});
 }
-async open(){
-    console.log('opening base URl: ${this.baseURL}');
+async open() {
+    console.log(`Opening base URL: ${this.baseURL}`);
     await this.page.goto(this.baseURL);
-    console.log('Landing page successfullly opening');
+    console.log('Landing page successfully opened');
 }
 async login(username,password)
 {
